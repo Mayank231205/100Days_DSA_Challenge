@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+// Recursive function to calculate a^b
+int power(int a, int b) {
+    if (b == 0)        // Base case: any number^0 = 1
+        return 1;
+    return a * power(a, b - 1);  // Recursive step
+}
+
+int main() {
+    // Predefined input to avoid blank screen
+    int a = 2;
+    int b = 5;
+
+    printf("Base: %d, Exponent: %d\n", a, b);
+    printf("Result: %d\n", power(a, b));
+
+    return 0;
+}
