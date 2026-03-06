@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int coeff;
+    int exp;
+    struct Node* next;
+};
+
+int main() {
+
+    int n, i;
+
+    struct Node *head = NULL, *temp = NULL, *newNode;
+
+    printf("Enter number of terms: ");
+    scanf("%d", &n);
+
+    printf("Enter coefficient and exponent:\n");
+
+    for(i = 0; i < n; i++) {
+
+        newNode = (struct Node*)malloc(sizeof(struct Node));
+
+        scanf("%d %d", &newNode->coeff, &newNode->exp);
+
+        newNode->next = NULL;
+
+        if(head == NULL) {
+            head = newNode;
+            temp = newNode;
+        }
+        else {
+            temp->next = newNode;
+            temp = newNode;
+        }
+    }
+
+    printf("Polynomial: ");
+
+    struct Node *ptr = head;
+
+    while(ptr != NULL) {
+
+        if(ptr->exp == 0)
+            printf("%d", ptr->coeff);
+
+        else if(ptr->exp == 1)
+            printf("%dx", ptr->coeff);
+
+        else
+            printf("%dx^%d", ptr->coeff, ptr->exp);
+
+        if(ptr->next != NULL)
+            printf(" + ");
+
+        ptr = ptr->next;
+    }
+
+    printf("\n");
+
+    system("pause");
+    return 0;
+}
