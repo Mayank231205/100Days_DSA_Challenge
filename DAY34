@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* top = NULL;
+
+// Push operation
+void push(int x) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = x;
+    newNode->next = top;
+    top = newNode;
+}
+
+// Pop operation
+int pop() {
+    if (top == NULL) {
+        printf("Stack Underflow\n");
+        return -1;
+    }
+    
+    struct Node* temp = top;
+    int val = temp->data;
+    top = top->next;
+    free(temp);
+    return val;
+}
+
+int main() {
+    char exp[100];
+    int i, a, b, result;
+
+    printf("Enter postfix expression: ");
+    fgets(exp, sizeof(exp), stdin);
+
+    for (i = 0; exp[i] != '\0'; i++) {
+
+        // If digit push to stack
+        if (isdigit(exp[i])) {
+            push(exp[i] - '0');
+        }
+
+        // If operator
+        else if (exp[i] == '+' || exp[i] == '-' || exp[i] == '*' || exp[i] == '/') {
+
+            b = pop();
+            a = pop();
+
+            if (exp[i] == '+')
+                result = a + b;
+            else if (exp[i] == '-')
+                result = a - b;
+            else if (exp[i] == '*')
+                result = a * b;
+            else if (exp[i] == '/')
+                result = a / b;
+
+            push(result);
+        }
+    }
+
+    printf("Result = %d", pop());
+
+    return 0;
+}
