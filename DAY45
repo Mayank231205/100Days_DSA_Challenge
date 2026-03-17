@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for tree node
+struct TreeNode {
+    int val;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to find maximum depth
+int maxDepth(struct TreeNode* root) {
+    if (root == NULL)
+        return 0;
+
+    int left = maxDepth(root->left);
+    int right = maxDepth(root->right);
+
+    return 1 + (left > right ? left : right);
+}
+
+// Helper function to create new node
+struct TreeNode* createNode(int val) {
+    struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    node->val = val;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+int main() {
+
+    struct TreeNode* root = createNode(3);
+    root->left = createNode(9);
+    root->right = createNode(20);
+    root->right->left = createNode(15);
+    root->right->right = createNode(7);
+
+    printf("Maximum Depth: %d", maxDepth(root));
+
+    return 0;
+}
