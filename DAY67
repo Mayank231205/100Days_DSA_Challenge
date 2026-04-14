@@ -1,0 +1,65 @@
+#include <stdio.h>
+
+#define MAX 100
+
+int graph[MAX][MAX];
+int visited[MAX];
+int stack[MAX];
+int top = -1;
+
+void push(int x) {
+    top++;
+    stack[top] = x;
+}
+
+void dfs(int node, int n) {
+    visited[node] = 1;
+
+    for (int i = 0; i < n; i++) {
+        if (graph[node][i] == 1 && visited[i] == 0) {
+            dfs(i, n);
+        }
+    }
+
+    push(node); // after visiting
+}
+
+int main() {
+    int n, e;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+
+    printf("Enter number of edges: ");
+    scanf("%d", &e);
+
+    // initialize
+    for (int i = 0; i < n; i++) {
+        visited[i] = 0;
+        for (int j = 0; j < n; j++) {
+            graph[i][j] = 0;
+        }
+    }
+
+    printf("Enter edges (u v):\n");
+    for (int i = 0; i < e; i++) {
+        int u, v;
+        scanf("%d %d", &u, &v);
+        graph[u][v] = 1;
+    }
+
+    // DFS call
+    for (int i = 0; i < n; i++) {
+        if (visited[i] == 0) {
+            dfs(i, n);
+        }
+    }
+
+    printf("Topological Order: ");
+    while (top != -1) {
+        printf("%d ", stack[top]);
+        top--;
+    }
+
+    return 0;
+}
