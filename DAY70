@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+#define MAX 100
+#define INF 99999
+
+int main() {
+    int n, m;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+
+    printf("Enter number of edges: ");
+    scanf("%d", &m);
+
+    int u[MAX], v[MAX], w[MAX];
+
+    printf("Enter edges (u v weight):\n");
+    for (int i = 0; i < m; i++) {
+        scanf("%d %d %d", &u[i], &v[i], &w[i]);
+    }
+
+    int src;
+    printf("Enter source node: ");
+    scanf("%d", &src);
+
+    int dist[MAX];
+
+    // initialize
+    for (int i = 0; i < n; i++) {
+        dist[i] = INF;
+    }
+    dist[src] = 0;
+
+    // Relax edges (n-1 times)
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < m; j++) {
+            if (dist[u[j]] != INF && dist[u[j]] + w[j] < dist[v[j]]) {
+                dist[v[j]] = dist[u[j]] + w[j];
+            }
+        }
+    }
+
+    // Check negative cycle
+    int negative = 0;
+    for (int j = 0; j < m; j++) {
+        if (dist[u[j]] != INF && dist[u[j]] + w[j] < dist[v[j]]) {
+            negative = 1;
+            break;
+        }
+    }
+
+    if (negative) {
+        printf("NEGATIVE CYCLE DETECTED\n");
+    } else {
+        printf("Shortest distances:\n");
+        for (int i = 0; i < n; i++) {
+            printf("To %d = %d\n", i, dist[i]);
+        }
+    }
+
+    return 0;
+}
